@@ -1,0 +1,15 @@
+{
+  "name": "cpp-wiki-site",
+  "version": "1.0.0",
+  "description": "个人 C++ 学习笔记在线文档站",
+  "type": "module",
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "migrate": "node scripts/migrate-notes.js"
+  },
+  "devDependencies": {
+    "vitepress": "^1.5.0"
+  }
+}
