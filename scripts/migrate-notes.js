@@ -1,116 +1,231 @@
-import fs from 'node:fs'
-import path from 'node:path'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const SOURCE_DIR = 'd:/ProgramData/ObsidianProgram/Test/wiki/cpp'
-const TARGET_DIR = 'd:/ProgramData/ObsidianProgram/cpp-wiki-site/docs/notes'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const REPO_ROOT = path.resolve(__dirname, '../../Test')
+const SITE_ROOT = path.resolve(__dirname, '..')
+
+const MIGRATIONS = [
+  {
+    source: path.join(REPO_ROOT, 'wiki/cpp'),
+    target: path.join(SITE_ROOT, 'docs/notes'),
+    urlPrefix: '/notes'
+  },
+  {
+    source: path.join(REPO_ROOT, 'wiki/计算机基础/操作系统'),
+    target: path.join(SITE_ROOT, 'docs/computer-basics/os'),
+    urlPrefix: '/computer-basics/os'
+  },
+  {
+    source: path.join(REPO_ROOT, 'wiki/计算机基础/数据库'),
+    target: path.join(SITE_ROOT, 'docs/computer-basics/database'),
+    urlPrefix: '/computer-basics/database'
+  },
+  {
+    source: path.join(REPO_ROOT, 'wiki/计算机基础/计算机组成原理'),
+    target: path.join(SITE_ROOT, 'docs/computer-basics/computer-organization'),
+    urlPrefix: '/computer-basics/computer-organization'
+  },
+  {
+    source: path.join(REPO_ROOT, 'wiki/计算机基础/计算机网络'),
+    target: path.join(SITE_ROOT, 'docs/computer-basics/network'),
+    urlPrefix: '/computer-basics/network'
+  }
+]
+
+const ASSETS_SOURCE = path.join(REPO_ROOT, 'assets')
+const ASSETS_TARGET = path.join(SITE_ROOT, 'docs/public/assets')
 
 function toSlug(name) {
   return name
-    .replace(/[()]/g, '')
     .replace(/\s+/g, '-')
+    .replace(/[()（）]/g, '')
+    .replace(/[^\w\u4e00-\u9fa5\-+#]/g, '')
     .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
     .toLowerCase()
 }
 
-function convertObsidianLinks(content, slugMap) {
-  return content
-    // [[标题|显示文本]] -> [显示文本](./slug.md)
-    .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (match, link, display) => {
-      const slug = slugMap.get(link.trim()) || toSlug(link.trim())
-      return `[${display.trim()}](./${slug}.md)`
-    })
-    // [[标题]] -> [标题](./slug.md)
-    .replace(/\[\[([^\]]+)\]\]/g, (match, link) => {
-      const trimmed = link.trim()
-      const slug = slugMap.get(trimmed) || toSlug(trimmed)
-      return `[${trimmed}](./${slug}.md)`
-    })
-    // ![[图片]] -> ![图片](./images/图片)
-    .replace(/!\[\[([^\]]+)\]\]/g, (match, link) => {
-      return `![${link}](./images/${link})`
-    })
+function baseNameFromLink(link) {
+  let s = link.trim()
+  if (s.includes('|')) s = s.split('|')[0].trim()
+  if (s.includes('/')) s = s.split('/').pop()
+  s = s.replace(/\.md$/, '')
+  return s
 }
 
-function cleanFrontmatter(frontmatter) {
-  const allowed = ['title']
-  const lines = frontmatter.split('\n')
+function collectSourceFiles(dir) {
   const result = []
-  let inList = false
-  let currentKey = null
+  if (!fs.existsSync(dir)) return result
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.isDirectory()) {
+      result.push(...collectSourceFiles(path.join(dir, entry.name)))
+    } else if (entry.name.endsWith('.md')) {
+      result.push(path.join(dir, entry.name))
+    }
+  }
+  return result
+}
 
-  for (const line of lines) {
-    const keyMatch = line.match(/^(\w+):/)
-    if (keyMatch) {
-      inList = false
-      currentKey = keyMatch[1]
-      if (allowed.includes(currentKey)) {
-        result.push(line)
+function escapeCppTemplates(text) {
+  const lines = text.split('\n')
+  let inCodeBlock = false
+  let inInlineCode = false
+  const out = []
+  for (const rawLine of lines) {
+    let line = rawLine
+    if (line.trim().startsWith('```')) {
+      inCodeBlock = !inCodeBlock
+      out.push(line)
+      continue
+    }
+    if (inCodeBlock) {
+      out.push(line)
+      continue
+    }
+    let result = ''
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i]
+      if (ch === '`') {
+        inInlineCode = !inInlineCode
+        result += ch
+        continue
       }
-      const rest = line.slice(keyMatch[0].length).trim()
-      if (rest === '' || line.endsWith(':')) {
-        inList = true
+      if (inInlineCode) {
+        result += ch
+        continue
       }
-    } else if (inList && line.trim().startsWith('-')) {
-      if (allowed.includes(currentKey)) {
-        result.push(line)
+      if (ch === '<' && !line.slice(i).startsWith('<!--')) {
+        result += '&lt;'
+      } else if (ch === '>') {
+        result += '&gt;'
+      } else {
+        result += ch
       }
+    }
+    out.push(result)
+  }
+  return out.join('\n')
+}
+
+function transformMarkdown(content, fileSlugMap, currentUrlPrefix) {
+  let text = content
+
+  text = text.replace(/\r\n/g, '\n')
+
+  text = text.replace(/^---\n[\s\S]*?\n---\n?/, '')
+
+  text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, src) => {
+    let newSrc = src
+    if (newSrc.startsWith('../../../assets/')) {
+      newSrc = newSrc.replace('../../../assets/', '/assets/')
+    } else if (newSrc.startsWith('../../assets/')) {
+      newSrc = newSrc.replace('../../assets/', '/assets/')
+    } else if (newSrc.startsWith('../assets/')) {
+      newSrc = newSrc.replace('../assets/', '/assets/')
+    } else if (newSrc.startsWith('assets/')) {
+      newSrc = '/' + newSrc
+    }
+    return `![${alt}](${newSrc})`
+  })
+
+  text = text.replace(/\[\[([^\]]+)\]\]/g, (match, inner) => {
+    const displayText = inner.includes('|') ? inner.split('|')[1].trim() : inner.trim()
+    const rawTarget = inner.includes('|') ? inner.split('|')[0].trim() : inner.trim()
+
+    if (rawTarget.startsWith('raw/') || rawTarget.startsWith('index/')) {
+      return displayText
+    }
+
+    const base = baseNameFromLink(rawTarget)
+
+    if (base === '卡码笔记计算机基础总览') {
+      return `[${displayText}](/computer-basics/)`
+    }
+
+    const target = fileSlugMap.get(base)
+    if (target) {
+      return `[${displayText}](${target.url}.html)`
+    }
+    return displayText
+  })
+
+  text = escapeCppTemplates(text)
+
+  return text.trim()
+}
+
+function copyAssets() {
+  if (!fs.existsSync(ASSETS_SOURCE)) return
+  fs.mkdirSync(ASSETS_TARGET, { recursive: true })
+  const entries = fs.readdirSync(ASSETS_SOURCE, { withFileTypes: true })
+  for (const entry of entries) {
+    const src = path.join(ASSETS_SOURCE, entry.name)
+    const dest = path.join(ASSETS_TARGET, entry.name)
+    if (entry.isDirectory()) {
+      fs.cpSync(src, dest, { recursive: true, force: true })
     } else {
-      inList = false
-      currentKey = null
+      fs.copyFileSync(src, dest)
+    }
+  }
+  console.log(`Copied assets: ${ASSETS_SOURCE} -> ${ASSETS_TARGET}`)
+}
+
+function cleanTargetDir(dir, preserveIndex = true) {
+  if (!fs.existsSync(dir)) return
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      cleanTargetDir(full, false)
+      if (fs.readdirSync(full).length === 0) {
+        fs.rmdirSync(full)
+      }
+    } else if (entry.name.endsWith('.md')) {
+      if (preserveIndex && entry.name === 'index.md') continue
+      fs.unlinkSync(full)
+    }
+  }
+}
+
+function main() {
+  copyAssets()
+
+  const fileSlugMap = new Map()
+  const migrationInfos = []
+
+  for (const migration of MIGRATIONS) {
+    const files = collectSourceFiles(migration.source)
+    for (const file of files) {
+      const name = path.basename(file, '.md')
+      const slug = toSlug(name)
+      const url = `${migration.urlPrefix}/${slug}`
+      fileSlugMap.set(name, { migration, file, slug, url })
+    }
+    migrationInfos.push({ ...migration, files })
+  }
+
+  for (const migration of migrationInfos) {
+    fs.mkdirSync(migration.target, { recursive: true })
+    cleanTargetDir(migration.target, true)
+  }
+
+  let total = 0
+  for (const migration of migrationInfos) {
+    for (const file of migration.files) {
+      const name = path.basename(file, '.md')
+      const slug = toSlug(name)
+      const targetFile = path.join(migration.target, `${slug}.md`)
+      const content = fs.readFileSync(file, 'utf-8')
+      const transformed = transformMarkdown(content, fileSlugMap, migration.urlPrefix)
+      fs.writeFileSync(targetFile, transformed, 'utf-8')
+      total++
     }
   }
 
-  return result.filter(l => l.trim() !== '').join('\n')
+  console.log(`Migrated ${total} notes.`)
 }
 
-function processFile(content, slugMap) {
-  let processed = content
-
-  if (content.startsWith('---\n')) {
-    const end = content.indexOf('\n---\n', 4)
-    if (end !== -1) {
-      const frontmatter = content.slice(4, end)
-      const body = content.slice(end + 5)
-      const cleaned = cleanFrontmatter(frontmatter)
-      processed = `---\n${cleaned}\n---\n${body}`
-    }
-  }
-
-  return convertObsidianLinks(processed, slugMap)
-}
-
-function migrate() {
-  if (!fs.existsSync(SOURCE_DIR)) {
-    console.error(`Source directory not found: ${SOURCE_DIR}`)
-    process.exit(1)
-  }
-
-  fs.mkdirSync(TARGET_DIR, { recursive: true })
-
-  const files = fs.readdirSync(SOURCE_DIR)
-    .filter(f => f.endsWith('.md'))
-
-  const slugMap = new Map()
-
-  for (const file of files) {
-    const base = path.basename(file, '.md')
-    const slug = toSlug(base)
-    slugMap.set(base, slug)
-  }
-
-  for (const file of files) {
-    const base = path.basename(file, '.md')
-    const slug = slugMap.get(base)
-    const sourcePath = path.join(SOURCE_DIR, file)
-    const targetPath = path.join(TARGET_DIR, `${slug}.md`)
-
-    let content = fs.readFileSync(sourcePath, 'utf-8')
-    content = processFile(content, slugMap)
-    fs.writeFileSync(targetPath, content, 'utf-8')
-    console.log(`Migrated: ${file} -> ${slug}.md`)
-  }
-
-  console.log(`\nTotal: ${files.length} files migrated to ${TARGET_DIR}`)
-}
-
-migrate()
+main()

@@ -1,19 +1,3 @@
----
-title: unordered_map 的 rehash 机制
-type: wiki
-stage: compiled
-entity_type: concept
-tags:
-  - cpp
-  - STL
-  - unordered_map
-  - 哈希表
-  - 性能优化
-source: "[raw/2026-06-22_unordered-map-rehash.md](./raw/2026-06-22_unordered-map-rehash.md.md)"
-source_hash: 060dc6531562b80248ac75e76f666d0eb6990ff66ee6169b2de1f765800f1513
-compiled: 2026-06-22
----
-
 # unordered_map 的 rehash 机制
 
 ## 核心结论
@@ -138,8 +122,8 @@ for (int i = 0; i < 10000; ++i) m[i] = data;  // 不再 rehash
 
 - 只需要**快速查找/插入** → `unordered_map`
 - 需要**有序遍历/范围查询** → `map`
-- **数据量小**(< 1000)→ `map` 可能更快(常数因子小)
-- **数据量大**(> 10000)→ `unordered_map` 优势明显
+- **数据量小**(&lt; 1000)→ `map` 可能更快(常数因子小)
+- **数据量大**(&gt; 10000)→ `unordered_map` 优势明显
 - **延迟敏感** → `unordered_map` + `reserve`
 
 ## 桶结构演进(性能优化)
@@ -171,7 +155,7 @@ for (int i = 0; i < 10000; ++i) m[i] = data;  // 不再 rehash
 **Q3: unordered_map 的 rehash 与 vector 的扩容有什么区别?**
 | 维度 | unordered_map::rehash | vector::reserve/扩容 |
 |------|---------------------|---------------------|
-| 触发 | 负载因子 > 1.0 | size == capacity |
+| 触发 | 负载因子 &gt; 1.0 | size == capacity |
 | 复杂度 | O(n) | O(n) |
 | 迭代器失效 | 全部失效 | 全部失效 |
 | 引用失效 | **不失效**(节点不动) | **失效**(搬迁) |
@@ -184,9 +168,9 @@ for (int i = 0; i < 10000; ++i) m[i] = data;  // 不再 rehash
 
 ## 相关扩展
 
-- [map vs unordered_map](./map-vs-unordered_map.md) - 全方位对比
-- [STL 容器选型](./stl-容器选型.md) - 选型全景
-- [STL Allocator 机制](./stl-allocator-机制.md) - 自定义分配器
-- [迭代器失效](./迭代器失效.md) - 各容器失效规则
-- [C++11 新特性](./c++11-新特性.md) - unordered_map 的引入
-- [unordered_map 的 rehash 机制](./unordered_map-的-rehash-机制.md) - 节点式容器优化
+- [map vs unordered_map](/notes/map-vs-unordered_map.html) - 全方位对比
+- [STL 容器选型](/notes/stl-容器选型.html) - 选型全景
+- [STL Allocator 机制](/notes/stl-allocator-机制.html) - 自定义分配器
+- [迭代器失效](/notes/迭代器失效.html) - 各容器失效规则
+- [C++11 新特性](/notes/c++11-新特性.html) - unordered_map 的引入
+- [unordered_map 的 rehash 机制](/notes/unordered_map-的-rehash-机制.html) - 节点式容器优化

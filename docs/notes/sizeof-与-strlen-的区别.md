@@ -1,19 +1,3 @@
----
-title: sizeof 与 strlen 的区别
-type: wiki
-stage: compiled
-entity_type: comparison
-tags:
-  - cpp
-  - 类型系统
-  - 字符串
-  - 编译期
-  - 数组
-source: "[raw/2026-06-22_sizeof-vs-strlen.md](./raw/2026-06-22_sizeof-vs-strlen.md.md)"
-source_hash: 5d5af9dfa10d65028c7054880b52637c7eb7d81bb36299bb565f10af79b1671d
-compiled: 2026-06-22
----
-
 # sizeof 与 strlen 的区别
 
 ## 核心结论
@@ -167,9 +151,9 @@ class Derived : public Base { virtual void f(); };   // 仍 8 字节
 
 ## 相关扩展
 
-- [指针 vs 引用](./指针-vs-引用.md) - sizeof 指针 vs 引用
-- [sizeof 与 strlen 的区别](./sizeof-与-strlen-的区别.md) - 数组在函数参数中的退化
-- [C++11 新特性](./c++11-新特性.md) - std::array、std::string 的大小
-- [堆 vs 栈](./堆-vs-栈.md) - 不同内存区域的对象 sizeof 相同(类型信息一致)
-- [类型转换](./类型转换.md) - sizeof 与类型推导
-- [auto vs decltype](./auto-vs-decltype.md) - sizeof 与类型推导配合
+- [指针 vs 引用](/notes/指针-vs-引用.html) - sizeof 指针 vs 引用
+- [sizeof 与 strlen 的区别](/notes/sizeof-与-strlen-的区别.html) - 数组在函数参数中的退化
+- [C++11 新特性](/notes/c++11-新特性.html) - std::array、std::string 的大小
+- [堆 vs 栈](/notes/堆-vs-栈.html) - 不同内存区域的对象 sizeof 相同(类型信息一致)
+- [类型转换](/notes/类型转换.html) - sizeof 与类型推导
+- [auto vs decltype](/notes/auto-vs-decltype.html) - sizeof 与类型推导配合

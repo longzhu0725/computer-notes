@@ -1,23 +1,3 @@
----
-title: push_back vs emplace_back
-type: wiki
-stage: compiled
-entity_type: comparison
-tags:
-  - cpp
-  - STL
-  - 容器
-  - 性能
-related:
-  - "[lambda 表达式](./lambda-表达式.md)"
-  - "[移动语义](./移动语义.md)"
-  - "[完美转发](./完美转发.md)"
-  - "[C++11 新特性](./c++11-新特性.md)"
-source: "[raw/2026-06-22_pushback-vs-emplaceback](./raw/2026-06-22_pushback-vs-emplaceback.md)"
-source_hash: 46d1bae653e0820b72b95f894e9d3c056ccef7e15199edaa0694c45364a2974c
-compiled: 2026-06-22
----
-
 # C++ `push_back` vs `emplace_back`
 
 ## 核心结论
@@ -214,7 +194,7 @@ v.push_back(Widget(args));  // 构造临时 Widget 抛异常
 
 ## 八、相关扩展
 
-- [lambda 表达式](./lambda-表达式.md) — 配合 lambda 的 STL 算法
-- [移动语义](./移动语义.md) — emplace_back 性能优势的来源
-- [完美转发](./完美转发.md) — emplace_back 内部机制
-- [C++11 新特性](./c++11-新特性.md) — emplace 系列是 C++11 引入
+- [lambda 表达式](/notes/lambda-表达式.html) — 配合 lambda 的 STL 算法
+- [移动语义](/notes/移动语义.html) — emplace_back 性能优势的来源
+- [完美转发](/notes/完美转发.html) — emplace_back 内部机制
+- [C++11 新特性](/notes/c++11-新特性.html) — emplace 系列是 C++11 引入

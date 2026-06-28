@@ -1,25 +1,3 @@
----
-title: "volatile"
-type: wiki
-stage: compiled
-entity_type: concept
-source: "[raw/2026-06-22_volatile-keyword.md](./raw/2026-06-22_volatile-keyword.md.md)"
-source_hash: 7ca73f7e5df53cdd6c0935889ee3c3d362aee181193aa8713b766003ec3613e8
-domain: cpp
-domains:
-  - cpp
-confidence: medium
-tags:
-  - cpp
-  - wiki
-  - volatile
-  - 内存
-  - 嵌入式
-created: 2026-06-22
-updated: 2026-06-22
-has_counter_arguments: true
----
-
 # volatile
 
 `volatile` 是 C/C++ 中告诉编译器的**优化抑制指令**：这个变量的值可能被程序之外的因素修改（硬件寄存器、中断服务程序、其他线程等），所以每次访问都必须从内存读取，不能用寄存器缓存。**它不是同步原语，也不保证线程安全**——一个长期流传的误区是把 C++ volatile 当作 Java volatile 用，前者是个硬件交互提示，后者是真正的内存可见性保证。
@@ -178,16 +156,16 @@ mov [i], eax      ; 写
 
 ## 与其他概念的关系
 
-- [cpp/static vs const](./cpp/static-vs-const.md)：`const volatile` 的组合是嵌入式状态寄存器的标准模式
-- [cpp/类型转换](./cpp/类型转换.md)：`reinterpret_cast<volatile T*>(addr)` 是硬件寄存器映射的强制类型转换
-- [cpp/struct vs class](./cpp/struct-vs-class.md)：硬件描述结构体（寄存器布局）通常用 struct + volatile 指针
-- [cpp/extern C](./cpp/extern-c.md)：硬件 SDK 的 C 头文件大量使用 volatile，包装 extern "C" 时要保留
-- [cpp/封装](./cpp/封装.md)：volatile 是"对外暴露硬件状态"的封装边界
-- [cpp/指针 vs 引用](./cpp/指针-vs-引用.md)：volatile 指针和 volatile 引用是不同概念（指针的 volatile vs 指向 volatile 的指针）
+- [cpp/static vs const](/notes/static-vs-const.html)：`const volatile` 的组合是嵌入式状态寄存器的标准模式
+- [cpp/类型转换](/notes/类型转换.html)：`reinterpret_cast<volatile T*>(addr)` 是硬件寄存器映射的强制类型转换
+- [cpp/struct vs class](/notes/struct-vs-class.html)：硬件描述结构体（寄存器布局）通常用 struct + volatile 指针
+- [cpp/extern C](/notes/extern-c.html)：硬件 SDK 的 C 头文件大量使用 volatile，包装 extern "C" 时要保留
+- [cpp/封装](/notes/封装.html)：volatile 是"对外暴露硬件状态"的封装边界
+- [cpp/指针 vs 引用](/notes/指针-vs-引用.html)：volatile 指针和 volatile 引用是不同概念（指针的 volatile vs 指向 volatile 的指针）
 
 ## 来源与延伸阅读
 
-- [raw/2026-06-22_volatile-keyword](./raw/2026-06-22_volatile-keyword.md) — 原始资料（卡码笔记 C++ 面试题系列，2026-05-23）
+- raw/2026-06-22_volatile-keyword — 原始资料（卡码笔记 C++ 面试题系列，2026-05-23）
 - 推荐：《Effective Modern C++》Item 40（避免在多线程中使用 volatile）
 - 推荐：《C++ Concurrency in Action》第 5 章（std::atomic 与内存顺序）
 - 推荐：cppreference [std::atomic](https://en.cppreference.com/w/cpp/atomic/atomic)

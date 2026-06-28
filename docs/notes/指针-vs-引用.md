@@ -1,7 +1,3 @@
----
-title: "指针 vs 引用"
----
-
 # 指针 vs 引用
 
 指针（pointer）和引用（reference）都是 C++ 中"间接访问对象"的机制，但它们在语义、使用约束和典型场景上有清晰的分工。面试中被问"指针和引用有什么区别"，答"指针可为空、引用不行"是起点；真正能区分中级和高级的，是能否讲清**内存模型的差异、const 修饰的层次、底层实现与抽象语义的分离**，以及**何时必须用哪个**。
@@ -104,17 +100,17 @@ void append_space(std::string& s);
 
 ## 与其他概念的关系
 
-- [cpp/封装](./cpp/封装.md)：指针/引用都是面向对象边界处的"访问控制工具"，对外暴露引用、对内管理指针是常见设计
-- [cpp/继承](./cpp/继承.md)：基类引用/指针是实现多态调用的基础
-- [cpp/多态](./cpp/多态.md)：`Base& obj = derived_obj; obj.virtual_method();` 是多态最常见的写法
-- [cpp/volatile](./cpp/volatile.md)：volatile 修饰指针和引用有不同含义（指针的 volatile vs 引用指向 volatile）
-- [static vs const](./static-vs-const.md)：const 修饰指针/引用的层次关系本文详述
-- [cpp/类型转换](./cpp/类型转换.md)：`static_cast<T*>` 与 `static_cast<T&>` 是不对称的——后者不能从字面量转换
-- [cpp/extern C](./cpp/extern-c.md)：C 接口只接受指针/值，不接受引用——这是 C/C++ 互操作的关键边界
+- [cpp/封装](/notes/封装.html)：指针/引用都是面向对象边界处的"访问控制工具"，对外暴露引用、对内管理指针是常见设计
+- [cpp/继承](/notes/继承.html)：基类引用/指针是实现多态调用的基础
+- [cpp/多态](/notes/多态.html)：`Base& obj = derived_obj; obj.virtual_method();` 是多态最常见的写法
+- [cpp/volatile](/notes/volatile.html)：volatile 修饰指针和引用有不同含义（指针的 volatile vs 引用指向 volatile）
+- [static vs const](/notes/static-vs-const.html)：const 修饰指针/引用的层次关系本文详述
+- [cpp/类型转换](/notes/类型转换.html)：`static_cast<T*>` 与 `static_cast<T&>` 是不对称的——后者不能从字面量转换
+- [cpp/extern C](/notes/extern-c.html)：C 接口只接受指针/值，不接受引用——这是 C/C++ 互操作的关键边界
 
 ## 来源与延伸阅读
 
-- [raw/2026-06-22_pointer-vs-reference](./raw/2026-06-22_pointer-vs-reference.md) — 原始资料（卡码笔记 C++ 面试题系列，2026-05-23）
+- raw/2026-06-22_pointer-vs-reference — 原始资料（卡码笔记 C++ 面试题系列，2026-05-23）
 - 推荐：《Effective C++》Item 1（视 C++ 为一个语言联邦）、Item 20（以 pass-by-reference-to-const 替代 pass-by-value）
 - 推荐：《C++ Primer》第 2.3 节（复合类型）、第 6.2 节（参数传递）
 - 推荐：cppreference [Reference declaration](https://en.cppreference.com/w/cpp/language/reference)

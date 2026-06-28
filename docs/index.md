@@ -2,20 +2,23 @@
 layout: home
 
 hero:
-  name: "C++ 学习笔记"
+  name: "计算机学习笔记"
   text: "个人知识库在线版"
-  tagline: 整理 C++ 面试与工程中的核心知识点
+  tagline: 整理 C++ 与计算机基础核心知识点
   actions:
     - theme: brand
-      text: 开始阅读
+      text: C++ 笔记
       link: /notes/
+    - theme: alt
+      text: 计算机基础
+      link: /computer-basics/
     - theme: alt
       text: 关于本站
       link: /about
 
 features:
   - title: 结构化
-    details: 按基础、面向对象、STL、内存、现代 C++、并发等模块组织
+    details: 按 C++、操作系统、计算机网络、数据库、计算机组成原理等模块组织
   - title: 可搜索
     details: 内置全文搜索，快速定位知识点
   - title: 随时查阅

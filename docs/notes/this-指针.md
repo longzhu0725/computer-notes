@@ -1,7 +1,3 @@
----
-title: this 指针
----
-
 # C++ this 指针
 
 ## 核心结论
@@ -262,7 +258,7 @@ Derived d;  // 输出 "Base::init",不是 "Derived::init"
 
 ## 十、相关扩展
 
-- [封装](./封装.md) — this 是 C++ 封装的关键机制
-- [智能指针](./智能指针.md) — `enable_shared_from_this` 用 this 安全获取 shared_ptr
-- [构造函数](./构造函数.md) — 构造期间 this 指向的对象"还不完整"
-- [虚析构函数](./虚析构函数.md) — 析构时 vptr 跟随析构进度切换
+- [封装](/notes/封装.html) — this 是 C++ 封装的关键机制
+- [智能指针](/notes/智能指针.html) — `enable_shared_from_this` 用 this 安全获取 shared_ptr
+- [构造函数](/notes/构造函数.html) — 构造期间 this 指向的对象"还不完整"
+- [虚析构函数](/notes/虚析构函数.html) — 析构时 vptr 跟随析构进度切换

@@ -1,7 +1,3 @@
----
-title: map/deque/list 底层实现
----
-
 # map/deque/list 底层实现
 
 ## 核心结论
@@ -105,10 +101,10 @@ list 只需改**两个指针**,O(1) 恒定时间。
 
 但实际场景中,如果插入不频繁,deque 的**缓存友好性**带来的遍历优势远超 list:
 
-- 遍历 100 万个 int:vector < deque < list(差距 1 个数量级)
-- 100 万次中间插入:list < deque(差距 1-2 个数量级)
+- 遍历 100 万个 int:vector &lt; deque &lt; list(差距 1 个数量级)
+- 100 万次中间插入:list &lt; deque(差距 1-2 个数量级)
 
-**结论**:中间插入 < 10% 时 deque 综合更优;> 50% 时 list 才有明显优势。
+**结论**:中间插入 &lt; 10% 时 deque 综合更优;&gt; 50% 时 list 才有明显优势。
 
 ## 什么时候该用 list 而不是 deque?
 
@@ -151,9 +147,9 @@ C++11 之前是 O(n)(需要遍历计数),C++11 之后是 O(1)(维护了 size 字
 
 ## 相关扩展
 
-- [STL 容器选型](./stl-容器选型.md) - 全景选型
-- [vector 底层原理和扩容机制](./vector-底层原理和扩容机制.md) - vector 的细节
-- [迭代器失效](./迭代器失效.md) - 各容器失效规则汇总
-- [map vs unordered_map](./map-vs-unordered_map.md) - 红黑树 vs 哈希表的深入对比
-- [深拷贝 vs 浅拷贝](./深拷贝-vs-浅拷贝.md) - 容器拷贝的代价
-- [移动语义](./移动语义.md) - 容器 swap/move 的 O(1) 优化
+- [STL 容器选型](/notes/stl-容器选型.html) - 全景选型
+- [vector 底层原理和扩容机制](/notes/vector-底层原理和扩容机制.html) - vector 的细节
+- [迭代器失效](/notes/迭代器失效.html) - 各容器失效规则汇总
+- [map vs unordered_map](/notes/map-vs-unordered_map.html) - 红黑树 vs 哈希表的深入对比
+- [深拷贝 vs 浅拷贝](/notes/深拷贝-vs-浅拷贝.html) - 容器拷贝的代价
+- [移动语义](/notes/移动语义.html) - 容器 swap/move 的 O(1) 优化

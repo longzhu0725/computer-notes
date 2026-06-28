@@ -1,7 +1,3 @@
----
-title: new vs malloc
----
-
 # C++ `new` vs `malloc`
 
 ## 核心结论
@@ -267,7 +263,7 @@ delete arr;  // 错误:用 delete 代替 delete[]
 
 ## 九、相关扩展
 
-- [堆 vs 栈](./堆-vs-栈.md) — 堆分配的完整路径
-- [深拷贝 vs 浅拷贝](./深拷贝-vs-浅拷贝.md) — 堆对象的拷贝语义
-- [内存碎片](./内存碎片.md) — 频繁 `new`/`delete` 的副作用
-- [智能指针](./智能指针.md) — `make_unique` / `make_shared` 是 `new` 的现代替代
+- [堆 vs 栈](/notes/堆-vs-栈.html) — 堆分配的完整路径
+- [深拷贝 vs 浅拷贝](/notes/深拷贝-vs-浅拷贝.html) — 堆对象的拷贝语义
+- [内存碎片](/notes/内存碎片.html) — 频繁 `new`/`delete` 的副作用
+- [智能指针](/notes/智能指针.html) — `make_unique` / `make_shared` 是 `new` 的现代替代

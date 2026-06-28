@@ -1,19 +1,3 @@
----
-title: struct vs union
-type: wiki
-stage: compiled
-entity_type: comparison
-tags:
-  - cpp
-  - struct
-  - union
-  - 内存布局
-  - 类型系统
-source: "[raw/2026-06-22_struct-vs-union.md](./raw/2026-06-22_struct-vs-union.md.md)"
-source_hash: 571c41abf825bdd5659671b8a2d0b3f108c1853c0759445e5badf275be1a7da7
-compiled: 2026-06-22
----
-
 # struct vs union
 
 ## 核心结论
@@ -220,10 +204,10 @@ int i = std::bit_cast<int>(f);  // 安全的位转换
 
 ## 相关扩展
 
-- [struct vs class](./struct-vs-class.md) - 几乎没区别
-- [C++11 新特性](./c++11-新特性.md) - 放宽了 union 的限制
-- [struct vs union](./struct-vs-union.md) - std::variant 的引入
-- [struct vs union](./struct-vs-union.md) - 对齐与 padding
-- [类型转换](./类型转换.md) - reinterpret_cast 与类型双关
-- [placement new](./placement-new.md) - union 手动构造的实现
-- [深拷贝 vs 浅拷贝](./深拷贝-vs-浅拷贝.md) - union 的拷贝语义
+- [struct vs class](/notes/struct-vs-class.html) - 几乎没区别
+- [C++11 新特性](/notes/c++11-新特性.html) - 放宽了 union 的限制
+- [struct vs union](/notes/struct-vs-union.html) - std::variant 的引入
+- [struct vs union](/notes/struct-vs-union.html) - 对齐与 padding
+- [类型转换](/notes/类型转换.html) - reinterpret_cast 与类型双关
+- [placement new](/notes/placement-new.html) - union 手动构造的实现
+- [深拷贝 vs 浅拷贝](/notes/深拷贝-vs-浅拷贝.html) - union 的拷贝语义

@@ -1,7 +1,3 @@
----
-title: 仿函数 vs Lambda 性能
----
-
 # 仿函数 vs Lambda 性能
 
 ## 核心结论
@@ -14,7 +10,7 @@ title: 仿函数 vs Lambda 性能
 |------|----------------|--------------|
 | 本质 | 有 `operator()` 的类/结构体 | 编译器生成的匿名类(等价于仿函数) |
 | 性能 | 优(可内联) | **优(可内联)** |
-| 性能差异 | < 1%(`-O2` 下) | < 1%(`-O2` 下) |
+| 性能差异 | &lt; 1%(`-O2` 下) | &lt; 1%(`-O2` 下) |
 | 命名 | 有类名,易于调试 | 匿名(编译器内部命名) |
 | 跨编译单元复用 | ✅ | ❌(局部) |
 | 继承/多态 | ✅ | ❌ |
@@ -112,7 +108,7 @@ auto f = [&big]() { return big.size(); };  // 引用(注意生命周期)
 
 **日常开发中 99% 的场景可以**。lambda 更简洁、就地定义、不需要额外命名。但仿函数在**需要跨编译单元复用、需要继承体系、需要精细控制对象语义**时仍有价值。
 
-> **选择标准是可读性和维护性,不是性能**。
+&gt; **选择标准是可读性和维护性,不是性能**。
 
 ## 函数指针 vs lambda
 
@@ -155,9 +151,9 @@ std::function<int(int)> fib = [&fib](int n) {
 
 ## 相关扩展
 
-- [lambda 表达式](./lambda-表达式.md) - 语法与用法
-- [stdmove vs stdforward](./stdmove-vs-stdforward.md) - 捕获时的语义
-- [完美转发](./完美转发.md) - lambda 配合转发
-- [移动语义](./移动语义.md) - 移动捕获的语义
-- [STL 容器选型](./stl-容器选型.md) - STL 算法的可调用对象
-- [map vs unordered_map](./map-vs-unordered_map.md) - 自定义比较器
+- [lambda 表达式](/notes/lambda-表达式.html) - 语法与用法
+- [stdmove vs stdforward](/notes/stdmove-vs-stdforward.html) - 捕获时的语义
+- [完美转发](/notes/完美转发.html) - lambda 配合转发
+- [移动语义](/notes/移动语义.html) - 移动捕获的语义
+- [STL 容器选型](/notes/stl-容器选型.html) - STL 算法的可调用对象
+- [map vs unordered_map](/notes/map-vs-unordered_map.html) - 自定义比较器

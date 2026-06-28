@@ -1,7 +1,3 @@
----
-title: std::move vs std::forward
----
-
 # C++ `std::move` vs `std::forward`
 
 ## 核心结论
@@ -276,7 +272,7 @@ std::vector<int> v2 = std::move(v);
 
 ## 八、相关扩展
 
-- [移动语义](./移动语义.md) — `std::move` 触发移动构造/赋值
-- [完美转发](./完美转发.md) — `std::forward` 的典型应用
-- [左值引用 vs 右值引用](./左值引用-vs-右值引用.md) — 引用折叠是 `forward` 的基础
-- [C++11 新特性](./c++11-新特性.md) — 两者都是 C++11 的核心机制
+- [移动语义](/notes/移动语义.html) — `std::move` 触发移动构造/赋值
+- [完美转发](/notes/完美转发.html) — `std::forward` 的典型应用
+- [左值引用 vs 右值引用](/notes/左值引用-vs-右值引用.html) — 引用折叠是 `forward` 的基础
+- [C++11 新特性](/notes/c++11-新特性.html) — 两者都是 C++11 的核心机制

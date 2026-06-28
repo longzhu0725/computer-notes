@@ -1,14 +1,10 @@
----
-title: free 与 delete 的区别
----
-
 # free 与 delete 的区别
 
 ## 核心结论
 
 `free` 是 C 语言函数,配合 `malloc` 使用,**只做一件事——把内存还给系统**,不关心内存里存的是什么,不调用任何析构函数。`delete` 是 C++ 运算符,配合 `new` 使用,**做两件事——先调用对象的析构函数(释放对象内部管理的资源),再释放对象本身占用的内存**。
 
-> **一句话总结**:`free` 只管内存,`delete` 管对象(析构 + 内存)。
+&gt; **一句话总结**:`free` 只管内存,`delete` 管对象(析构 + 内存)。
 
 | 维度 | `free` | `delete` |
 |------|--------|---------|
@@ -29,14 +25,14 @@ title: free 与 delete 的区别
 
 `operator delete` 的默认实现就是调用 `free`。所以:
 
-> **delete = 析构 + free**
+&gt; **delete = 析构 + free**
 
 `new p` 也是两步:
 
 1. 调用 `operator new(sizeof(T))`(分配内存,默认实现就是 `malloc`)
 2. 在这块内存上调用构造函数
 
-> **new = malloc + 构造**
+&gt; **new = malloc + 构造**
 
 ## 为什么不能混用
 
@@ -87,7 +83,7 @@ delete[] arr;   // 正确
 1. 找到 `p` 前面的 metadata(malloc 分配时偷偷加的头部,记录了这块内存的大小)
 2. 标记为已释放
 3. 尝试和相邻空闲块合并(减少碎片)
-4. 如果这块内存很大(通常 > 128KB),直接 `munmap` 还给内核
+4. 如果这块内存很大(通常 &gt; 128KB),直接 `munmap` 还给内核
 5. 否则放入空闲链表,等下次 `malloc` 复用
 
 ## delete nullptr 安全吗?
@@ -115,7 +111,7 @@ free(p);   // OK
 - 重复释放 → 程序崩溃
 - 异常路径下没释放 → 泄漏
 
-智能指针通过 [RAII 机制](./raii-机制.md)自动管理生命周期,从根本上避免这些问题。
+智能指针通过 [RAII 机制](/notes/raii-机制.html)自动管理生命周期,从根本上避免这些问题。
 
 ## operator new 和 operator delete 能重载吗?
 
@@ -147,9 +143,9 @@ free(p);   // OK
 
 ## 相关扩展
 
-- [new vs malloc](./new-vs-malloc.md) - 两种分配机制的细节
-- [智能指针](./智能指针.md) - 替代手动 new/delete
-- [RAII 机制](./raii-机制.md) - 自动资源管理
-- [内存泄漏、野指针和内存越界](./内存泄漏、野指针和内存越界.md) - 释放错误的代价
-- [深拷贝 vs 浅拷贝](./深拷贝-vs-浅拷贝.md) - new[] 数组的拷贝
-- [placement new](./placement-new.md) - 另一种 new 形式
+- [new vs malloc](/notes/new-vs-malloc.html) - 两种分配机制的细节
+- [智能指针](/notes/智能指针.html) - 替代手动 new/delete
+- [RAII 机制](/notes/raii-机制.html) - 自动资源管理
+- [内存泄漏、野指针和内存越界](/notes/内存泄漏野指针和内存越界.html) - 释放错误的代价
+- [深拷贝 vs 浅拷贝](/notes/深拷贝-vs-浅拷贝.html) - new[] 数组的拷贝
+- [placement new](/notes/placement-new.html) - 另一种 new 形式

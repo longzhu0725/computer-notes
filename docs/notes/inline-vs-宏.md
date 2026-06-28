@@ -1,26 +1,3 @@
----
-title: "inline vs 宏"
-type: wiki
-stage: compiled
-entity_type: comparison
-source: "[raw/2026-06-22_inline-vs-macro.md](./raw/2026-06-22_inline-vs-macro.md.md)"
-source_hash: 73626d1708b945916979b546bcede03a828734a4acf8aa99f271d870e79eb26f
-domain: cpp
-domains:
-  - cpp
-confidence: medium
-tags:
-  - cpp
-  - wiki
-  - inline
-  - 宏
-  - 预处理
-  - 对比
-created: 2026-06-22
-updated: 2026-06-22
-has_counter_arguments: true
----
-
 # inline vs 宏
 
 `inline` 函数和 `#define` 宏经常被放在一起比较——都是"避免函数调用开销"的手段，但**处理阶段、类型安全、调试能力**完全不同。核心区别一句话：**宏是预处理器的"傻替换"，inline 是编译器的"聪明函数"**。现代 C++ 的准则是**能 inline 就不要宏**，但有 3 个场景是 inline 无法替代的——预处理器独有的能力。
@@ -244,16 +221,16 @@ constexpr int square(int x) { return x*x; } // 替代宏函数，有类型检查
 
 ## 与其他概念的关系
 
-- [cpp/extern C](./cpp/extern-c.md)：C 头文件常带 `inline` 函数；C99 起 inline 是 C 标准的正式特性
-- [cpp/static vs const](./cpp/static-vs-const.md)：`inline static const` 组合常用于头文件中的编译期常量
-- [cpp/类型转换](./cpp/类型转换.md)：宏可包装复杂的类型转换逻辑（如 `INT_TO_PTR`），但 `static_cast` 更安全
-- [cpp/struct vs class](./cpp/struct-vs-class.md)：类内成员函数默认 inline，是 inline 关键字的最常见应用
-- [cpp/变量作用域](./cpp/变量作用域.md)：宏无视作用域是它最大的隐患之一，与 C++ 的作用域概念冲突
-- [cpp/volatile](./cpp/volatile.md)：调试宏可能用 `volatile` 防止编译器优化
+- [cpp/extern C](/notes/extern-c.html)：C 头文件常带 `inline` 函数；C99 起 inline 是 C 标准的正式特性
+- [cpp/static vs const](/notes/static-vs-const.html)：`inline static const` 组合常用于头文件中的编译期常量
+- [cpp/类型转换](/notes/类型转换.html)：宏可包装复杂的类型转换逻辑（如 `INT_TO_PTR`），但 `static_cast` 更安全
+- [cpp/struct vs class](/notes/struct-vs-class.html)：类内成员函数默认 inline，是 inline 关键字的最常见应用
+- [cpp/变量作用域](/notes/变量作用域.html)：宏无视作用域是它最大的隐患之一，与 C++ 的作用域概念冲突
+- [cpp/volatile](/notes/volatile.html)：调试宏可能用 `volatile` 防止编译器优化
 
 ## 来源与延伸阅读
 
-- [raw/2026-06-22_inline-vs-macro](./raw/2026-06-22_inline-vs-macro.md) — 原始资料（卡码笔记 C++ 面试题系列，2026-05-23）
+- raw/2026-06-22_inline-vs-macro — 原始资料（卡码笔记 C++ 面试题系列，2026-05-23）
 - 推荐：《Effective C++》Item 2（用 const/enum/inline 替代 #define）
 - 推荐：《C++ Coding Standards》Rule 22（用内联函数代替宏函数）
 - 推荐：cppreference [inline specifier](https://en.cppreference.com/w/cpp/language/inline)

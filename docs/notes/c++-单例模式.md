@@ -1,19 +1,3 @@
----
-title: C++ 单例模式
-type: wiki
-stage: compiled
-entity_type: pattern
-tags:
-  - cpp
-  - 设计模式
-  - 单例
-  - 线程安全
-  - Magic Static
-source: "[raw/2026-06-22_singleton-pattern.md](./raw/2026-06-22_singleton-pattern.md.md)"
-source_hash: 80f441904c89aef5e516a8f6c0f0fad0a60050a1cc33e7ca6ea15413211b8f8b
-compiled: 2026-06-22
----
-
 # C++ 单例模式
 
 ## 核心结论
@@ -209,9 +193,9 @@ Derived& getInstance() { static Derived inst; return inst; }
 
 ## 相关扩展
 
-- [智能指针的线程安全](./智能指针的线程安全.md) - 共享状态的同步
-- [自旋锁 vs 互斥锁](./自旋锁-vs-互斥锁.md) - DCLP 用的互斥锁
-- [多线程与锁](./多线程与锁.md) - 锁的细节
-- [C++ 单例模式](./c++-单例模式.md) - 单例/工厂/观察者等
-- [C++11 新特性](./c++11-新特性.md) - Magic Static 是 C++11 引入
-- [C++ 学习路线(2026)](./c++-学习路线2026.md) - 私有构造是封装的应用
+- [智能指针的线程安全](/notes/智能指针的线程安全.html) - 共享状态的同步
+- [自旋锁 vs 互斥锁](/notes/自旋锁-vs-互斥锁.html) - DCLP 用的互斥锁
+- [多线程与锁](/notes/多线程与锁.html) - 锁的细节
+- [C++ 单例模式](/notes/c++-单例模式.html) - 单例/工厂/观察者等
+- [C++11 新特性](/notes/c++11-新特性.html) - Magic Static 是 C++11 引入
+- [C++ 学习路线(2026)](/notes/c++-学习路线2026.html) - 私有构造是封装的应用

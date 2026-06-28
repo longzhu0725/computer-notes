@@ -1,7 +1,3 @@
----
-title: vector 底层原理和扩容机制
----
-
 # vector 底层原理和扩容机制
 
 ## 核心结论
@@ -148,7 +144,7 @@ deque 不做整体搬迁,用分段连续内存,扩容时只需加一个新 buffe
 **Q2: 扩容后 reserve 的地址和原地址有关系吗?**
 无关。扩容时分配全新内存,旧内存释放,原地址可能被分配器重复利用。代码不能假设"扩容后地址 = 原地址 + delta"。
 
-**Q3: vector<bool> 有什么特殊性?**
+**Q3: vector&lt;bool&gt; 有什么特殊性?**
 **不要用**。`vector<bool>` 是特化版,用 bit packing(每个 bool 占 1 bit)节省空间,但**不是真正的容器**——返回的是 `vector<bool>::reference` 代理对象,不是 `bool&`,导致大量 C++ 模板代码无法编译。需要位存储用 `std::bitset<N>` 或 `boost::dynamic_bitset`。
 
 **Q4: vector 和 array 的区别?**
@@ -158,10 +154,10 @@ deque 不做整体搬迁,用分段连续内存,扩容时只需加一个新 buffe
 
 ## 相关扩展
 
-- [STL 容器选型](./stl-容器选型.md) - 选型全景
-- [迭代器失效](./迭代器失效.md) - 各种容器失效规则
-- [map vs unordered_map](./map-vs-unordered_map.md) - 红黑树 vs 哈希表
-- [移动语义](./移动语义.md) - 扩容时的移动优化
-- [完美转发](./完美转发.md) - emplace_back 的底层
-- [堆 vs 栈](./堆-vs-栈.md) - vector 数据存储位置
-- [深拷贝 vs 浅拷贝](./深拷贝-vs-浅拷贝.md) - 拷贝与移动的区别
+- [STL 容器选型](/notes/stl-容器选型.html) - 选型全景
+- [迭代器失效](/notes/迭代器失效.html) - 各种容器失效规则
+- [map vs unordered_map](/notes/map-vs-unordered_map.html) - 红黑树 vs 哈希表
+- [移动语义](/notes/移动语义.html) - 扩容时的移动优化
+- [完美转发](/notes/完美转发.html) - emplace_back 的底层
+- [堆 vs 栈](/notes/堆-vs-栈.html) - vector 数据存储位置
+- [深拷贝 vs 浅拷贝](/notes/深拷贝-vs-浅拷贝.html) - 拷贝与移动的区别

@@ -1,25 +1,3 @@
----
-title: "static vs const"
-type: wiki
-stage: compiled
-entity_type: comparison
-source: "[raw/2026-06-22_static-vs-const.md](./raw/2026-06-22_static-vs-const.md.md)"
-source_hash: 6395862f1d74d1b290522ea1d621f4210df385057ab209f8e4e741cf08fc6295
-domain: cpp
-domains:
-  - cpp
-confidence: medium
-tags:
-  - cpp
-  - wiki
-  - static
-  - const
-  - 对比
-created: 2026-06-22
-updated: 2026-06-22
-has_counter_arguments: true
----
-
 # static vs const
 
 `static` 和 `const` 是 C++ 中最常被同时使用的两个关键字，但它们**正交**——一个控制"在哪活多久"（生命周期和可见性），一个控制"能不能改"（可修改性）。理解这一点比分别记忆每个用法更重要。当面试官追问"它们修饰同一个东西时语义怎么叠加"，答不清的原因通常是没把**存储期**（static）和**constness**（const）作为两个独立维度思考。
@@ -112,7 +90,7 @@ public:
 };
 ```
 
-`inline static` 消除了"必须在 .cpp 文件里找定义"的麻烦——这正是 [cpp/封装](./cpp/封装.md) 在**编译期实现**上的简化。
+`inline static` 消除了"必须在 .cpp 文件里找定义"的麻烦——这正是 [cpp/封装](/notes/封装.html) 在**编译期实现**上的简化。
 
 #### 4. 类的静态成员函数
 
@@ -159,7 +137,7 @@ ref = 20;  // 编译错误：不能通过 ref 改 x
 
 `const` 修饰引用时，**修饰的是被引用对象**而不是引用本身（引用本来就不能改绑定）。所以"const 引用"实际是"绑定到 const 对象的引用"。
 
-**重要应用**：函数参数 `void f(const T&)` 避免拷贝又承诺不修改——见 [cpp/指针 vs 引用](./cpp/指针-vs-引用.md)。
+**重要应用**：函数参数 `void f(const T&)` 避免拷贝又承诺不修改——见 [cpp/指针 vs 引用](/notes/指针-vs-引用.html)。
 
 #### 4. 修饰成员函数
 
@@ -177,7 +155,7 @@ c.get();  // ✅ OK
 c.inc();  // ❌ 编译错误：const 对象不能调用非 const 成员函数
 ```
 
-const 成员函数里所有**非 mutable 成员**都按 const 处理。`mutable` 是"逻辑 const"逃逸门——见 [cpp/封装](./cpp/封装.md)。
+const 成员函数里所有**非 mutable 成员**都按 const 处理。`mutable` 是"逻辑 const"逃逸门——见 [cpp/封装](/notes/封装.html)。
 
 ### 正交性
 
@@ -219,16 +197,16 @@ static 和 const 是**完全正交**的两个维度。一个名字可以是：
 
 ## 与其他概念的关系
 
-- [cpp/变量作用域](./cpp/变量作用域.md)：static 局部变量、全局变量是该文的核心话题
-- [cpp/指针 vs 引用](./cpp/指针-vs-引用.md)：const 修饰指针/引用的层次关系直接相关
-- [cpp/封装](./cpp/封装.md)：const 成员函数是"对外承诺不修改"的接口机制；mutable 是其内部实现细节
-- [cpp/类型转换](./cpp/类型转换.md)：`const_cast` 是 const 的"反向"工具，但有严格使用条件
-- [cpp/extern C](./cpp/extern-c.md)：跨语言接口必须用 `extern "C"` 包裹常量和函数，确保 ABI 兼容
-- [cpp/struct vs class](./cpp/struct-vs-class.md)：struct 成员默认 public 经常和 const 配合定义"值类型"（如 `struct Point { const double x; const double y; };`）
+- [cpp/变量作用域](/notes/变量作用域.html)：static 局部变量、全局变量是该文的核心话题
+- [cpp/指针 vs 引用](/notes/指针-vs-引用.html)：const 修饰指针/引用的层次关系直接相关
+- [cpp/封装](/notes/封装.html)：const 成员函数是"对外承诺不修改"的接口机制；mutable 是其内部实现细节
+- [cpp/类型转换](/notes/类型转换.html)：`const_cast` 是 const 的"反向"工具，但有严格使用条件
+- [cpp/extern C](/notes/extern-c.html)：跨语言接口必须用 `extern "C"` 包裹常量和函数，确保 ABI 兼容
+- [cpp/struct vs class](/notes/struct-vs-class.html)：struct 成员默认 public 经常和 const 配合定义"值类型"（如 `struct Point { const double x; const double y; };`）
 
 ## 来源与延伸阅读
 
-- [raw/2026-06-22_static-vs-const](./raw/2026-06-22_static-vs-const.md) — 原始资料（卡码笔记 C++ 面试题系列，2026-05-23）
+- raw/2026-06-22_static-vs-const — 原始资料（卡码笔记 C++ 面试题系列，2026-05-23）
 - 推荐：《Effective C++》Item 2（用 const/enum/inline 替代 #define）
 - 推荐：《Effective Modern C++》Item 17（理解特殊成员函数的生成）
 - 推荐：cppreference [storage duration](https://en.cppreference.com/w/cpp/language/storage_duration)（存储期分类）

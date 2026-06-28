@@ -1,7 +1,3 @@
----
-title: STL 容器选型
----
-
 # C++ STL 容器选型
 
 ## 核心结论
@@ -137,7 +133,7 @@ um["apple"] = 1;
 **与 `map` 选型**:
 - 需要有序 → `map`
 - 只需查找 → `unordered_map`(快 10-20 倍)
-- 详细对比见 [map vs unordered_map](./map-vs-unordered_map.md)
+- 详细对比见 [map vs unordered_map](/notes/map-vs-unordered_map.html)
 
 ## 四、容器适配器
 
@@ -225,7 +221,7 @@ list:    ┌───┐ → ┌───┐ → ┌───┐ → ...     ←
 
 ## 八、相关扩展
 
-- [map vs unordered_map](./map-vs-unordered_map.md) — 关联 vs 无序的具体对比
-- [迭代器失效](./迭代器失效.md) — 不同容器的迭代器失效规则
-- [C++11 新特性](./c++11-新特性.md) — `emplace` 系列函数避免临时对象
-- [内存碎片](./内存碎片.md) — 连续内存 vs 离散节点的碎片差异
+- [map vs unordered_map](/notes/map-vs-unordered_map.html) — 关联 vs 无序的具体对比
+- [迭代器失效](/notes/迭代器失效.html) — 不同容器的迭代器失效规则
+- [C++11 新特性](/notes/c++11-新特性.html) — `emplace` 系列函数避免临时对象
+- [内存碎片](/notes/内存碎片.html) — 连续内存 vs 离散节点的碎片差异
